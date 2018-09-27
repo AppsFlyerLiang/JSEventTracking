@@ -1,16 +1,30 @@
-# JSEventTracking
+# Event Tracking via JavaScript on WebView
 
 
-An android sample project to show how to call Native method in HTML(JavaScript) code, so that the Native mothod can get the passed event data and call AppsFlyerLib.getInstance().trackEvent().
+ An android sample project to show how to call Native method in HTML(JavaScript) code, so that the Native mothod can get the passed event data and call AppsFlyerLib.getInstance().trackEvent().
 
-in HTML(JavaScript) code
+#### HTML code
+Call `trackEvent()` when event happened on Web page.
+```
+<button id="trackEvent" onclick="trackEvent()"> Track Event </button>
+```
+
+#### JavaScript code
+Define a function to handle event on Web page.
+```
 function trackEvent(){
     var eventName = "af_add_to_cart"
     var eventParams = '{"af_price":"1234"}'
     app.trackEvent(eventName, eventParams)
 }
+```
 
-in Android app code:
+In the function of `trackEvent()`, use `app.trackEvent` to call Native method.
+* app: refer to `webView.addJavascriptInterface(new MainJsInterface(), "app")`
+* trackEvent(): refer to `MainJsInterface.trackEvent()`
+
+#### Android app code
+```
 public class WebViewActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -23,6 +37,10 @@ public class WebViewActivity extends AppCompatActivity {
         webView.loadUrl(getUrl());
 ...
     }
+```
+
+Create `MainJsInterface` class to implement `trackEvent()` as JavascriptInterface
+```
 public class MainJsInterface{
     @JavascriptInterface
     public void trackEvent(String name, String json){
@@ -44,4 +62,6 @@ public class MainJsInterface{
         AppsFlyerLib.getInstance().trackEvent(WebViewActivity.this, name, params);
     }
 }
+```
+
 
