@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">JSEventTracking</string>
+
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="splash">JavaScript Event Tracking Sample</string>
+    <string name="web_view">In-app Web View</string>
+</resources>
