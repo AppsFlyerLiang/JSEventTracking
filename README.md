@@ -1,7 +1,7 @@
 # Event Tracking via JavaScript on WebView
 
 
- An android sample project to show how to call Native method in HTML(JavaScript) code, so that the Native mothod can get the passed event data and call AppsFlyerLib.getInstance().trackEvent().
+ An android sample project to show how to call application's Native method from HTML(JavaScript) code, so that the eventName and eventValue can be passed from HTML to natvie app and sent by AppsFlyerLib.getInstance().trackEvent().
 
 #### HTML code
 Call `trackEvent()` when event happened on Web page.
