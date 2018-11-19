@@ -1,8 +1,10 @@
 <resources>
-    <string name="app_name">JSEventTracking</string>
+    <string name="app_name">WebView Event Tracking</string>
 
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="splash">JavaScript Event Tracking Sample</string>
     <string name="web_view">In-app Web View</string>
+    <string name="url_loading">URL Loading</string>
+    <string name="js_event">JavaScript</string>
 </resources>

@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.webkit.JavascriptInterface;
-import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -19,15 +18,26 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public class WebViewActivity extends AppCompatActivity {
+public class JSEventActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_view);
-        setTitle(R.string.web_view);
+        setTitle(R.string.js_event);
         WebView webView = findViewById(R.id.webView);
 
-        webView.setWebViewClient(new ArticleWebViewClient());
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                if (url.startsWith("https://画面URL")) {
+                    String eventName = "会員登録完了";
+                    Map<String, Object> eventParams = new HashMap<>();
+                    eventParams.put("address", "Address values");
+                    AppsFlyerLib.getInstance().trackEvent(JSEventActivity.this, eventName, eventParams);
+                }
+                return true;
+            }
+        });
         WebSettings settings = webView.getSettings();
         settings.setDomStorageEnabled(true);
         settings.setJavaScriptEnabled(true);
@@ -40,8 +50,18 @@ public class WebViewActivity extends AppCompatActivity {
     }
 
     public class ArticleWebViewClient extends WebViewClient {
-
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            if(url.startsWith("https://画面URL")){
+                String eventName = "会員登録完了";
+                Map<String, Object> eventParams = new HashMap<>();
+                eventParams.put("address", "Address values");
+                AppsFlyerLib.getInstance().trackEvent(JSEventActivity.this, eventName, eventParams);
+            }
+            return true;
+        }
     }
+
 
     public class MainJsInterface{
         @JavascriptInterface
@@ -62,7 +82,7 @@ public class WebViewActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
-            AppsFlyerLib.getInstance().trackEvent(WebViewActivity.this, name, params);
+            AppsFlyerLib.getInstance().trackEvent(JSEventActivity.this, name, params);
         }
     }
 }
